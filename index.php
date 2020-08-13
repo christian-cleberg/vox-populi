@@ -41,6 +41,23 @@
         .nvabar {
             background: #121212;
         }
+        
+        .dropdown-menu {
+            background-color: #202020;
+        }
+        
+        .dropdown-item {
+            color: #ccc;
+        }
+        
+        .dropdown-item:focus, .dropdown-item:hover {
+            background-color: #3b3b3b;
+            color: #dc3545;
+        }
+        
+        .dropdown-divider {
+            border-top: 1px solid #3b3b3b;
+        }
 
         .card {
             background: #202020;
@@ -94,6 +111,15 @@
         .page-link:focus {
             box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .25);
         }
+        
+        .page-item.disabled .page-link {
+            color: #dc3545;
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #202020;
+            border-color: #3b3b3b;
+        }
     </style>
 </head>
 
@@ -130,7 +156,7 @@
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">GitHub <i data-feather="arrow-up-right"></i></a>
+                    <a class="nav-link" href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub <i data-feather="arrow-up-right"></i></a>
                 </li>
             </ul>
             <!--
