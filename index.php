@@ -146,13 +146,15 @@
         <?php
             require __DIR__ . '/vendor/autoload.php';
 
+            $consumer_key = getenv('CONSUMER_KEY');
+            $consumer_secret = getenv('CONSUMER_SECRET');
             $token = getenv('TOKEN');
             $token_secret = getenv('TOKEN_SECRET');
 
             // Authenticate via OAuth
             $client = new Tumblr\API\Client(
-                'cQotzQDHUeLkw4w8EMWYEND6P8ORPbgjh3fIWMW2IgvIOs11Cz',
-                'SYz8ZJ0MpsX24UzX8fip1ywbxO6wu4LyMiQqa1cVnzFpRU6TZS',
+                $consumer_key,
+                $consumer_secret,
                 $token,
                 $token_secret
             );
