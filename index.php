@@ -85,8 +85,8 @@
                 <link rel="manifest" href="./assets/favicon/site.webmanifest">
                 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
                     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+                <link rel="stylesheet"  href="./assets/css/app.css">
                 <title>Vox Populi - A Tumblr Web Client</title>
-                <link href="./assets/css/app.css">
             </head>
             <body>
                 <nav class="navbar navbar-expand-lg navbar-dark">
