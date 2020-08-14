@@ -79,6 +79,11 @@
         $token_secret
     );
     
+    // Set up a function to check if variables are blank later (this function accepts 0, 0.0, and "0" as valid)
+    function not_blank($value) {
+        return !empty($value) && isset($value) && $value !== '';
+    }
+    
     // Echo HTML contents
     echo '<!doctype html><html lang="en">
             <head>
@@ -99,7 +104,7 @@
             <body>
                 <nav class="navbar navbar-expand-lg navbar-dark">
                     <div class="container">
-                        <a class="navbar-brand" href="#">Vox Populi</a>
+                        <a class="navbar-brand" href="./">Vox Populi</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -116,10 +121,12 @@
                                         Filter Posts
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=answer">Answer</a>
                                         <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=audio">Audio</a>
                                         <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=chat">Chat</a>
                                         <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=link">Link</a>
                                         <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=photo">Photo</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=quote">Quote</a>
                                         <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=text">Text</a>
                                         <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=video">Video</a>
                                         <div class="dropdown-divider"></div>
@@ -159,26 +166,36 @@
                 }
                 $card_columns = '<div class="card-columns">';
                 foreach ($dashboard_posts->posts as $post) {
-                    $card_columns .= '<div class="card">';
-                    $card_columns .= '<div class="card-header"><a href="' . $post->blog->url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->blog_name, 32) . '"></a><a href="' . $post->blog->url . '">' . $post->blog_name . '</a></div>';
+                    $card_columns .= '<div class="card" data-type="' . $post->type . '" data-id="' . $post->id_string . '">';
+                    $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog"><a href="' . $post->blog->url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->blog_name, 32) . '"></a>';
+                    $card_columns .= '<a href="' . $post->blog->url . '">' . $post->blog_name . '</a></div>';
+                    
+                    if ($post->followed != true) {
+                        // Send user to action.php to follow a new blog
+                        $query_string = 'action=follow&blog_name=' . urlencode($post->blog_name) . '&callback=' . urlencode('https://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
+                        $card_columns .= '<a href="action.php?' . htmlentities($query_string) . '"><i data-feather="user-plus"></i></a></div>';
+                    } else {
+                        $card_columns .= '</div>';
+                    }
+                    
                     if ($post->type == 'photo') {
-                        $card_columns .= '<img src="' . $post->photos[0]->original_size->url . '" class="card-img" alt="...">';
+                        $card_columns .= '<a href="' . $post->photos[0]->original_size->url . '"><img src="' . $post->photos[0]->original_size->url . '" class="card-img" alt="..."></a>';
                     }
                     if ($post->type == 'video') {
                         $card_columns .= '<video controls poster="'.$post->thumbnail_url.'" class="card-img"><source src="'.$post->video_url.'"></source></video>';
                     }
                     $card_columns .= '<div class="card-body">';
                     if ($post->type == 'photo') {
-                        if (isset($post->caption) && $post->caption !== '') {
-                            $card_columns .= '<p class="card-text">' . $post->caption . '</p>';
+                        if (not_blank($post->caption)) {
+                            $card_columns .= '<p class="card-text post-caption">' . $post->caption . '</p>';
                         }
                     }
                     if ($post->type == 'text') {
-                        if (isset($post->title) && $post->title !== '') {
-                            $card_columns .= '<p class="card-text">' . $post->title . '</p>';
+                        if (not_blank($post->title)) {
+                            $card_columns .= '<h5 class="card-title post-title">' . $post->title . '</h5>';
                         }
-                        if (isset($post->body) && $post->body !== '') {
-                            $card_columns .= '<p class="card-text">' . $post->body . '</p>';
+                        if (not_blank($post->body)) {
+                            $card_columns .= '<p class="card-text post-body">' . $post->body . '</p>';
                         }
                     }
                     if ($post->type == 'answer') {
@@ -186,15 +203,27 @@
                         $card_columns .= '<hr>';
                         $card_columns .= $post->answer;
                     }
-                    if (isset($post->reblog->comment) && $post->reblog->comment !== '') {
-                        $card_columns .= '<p class="card-text">' . $post->reblog->comment . '</p>';
+                    if ($post->type == 'quote') {
+                        $card_columns .= '<blockquote class="card-text post-quote">' . $post->summary;
+                        $card_columns .= '<br><br><cite>' . $post->reblog->comment . '</cite></blockquote>';
                     }
+                    if ($post->type == 'chat') {
+                        for ($i = 0; $i <= count($post->dialogue); $i++) {
+                            $card_columns .= '<blockquote class="card-text post-chat-' . $i . '">' . (not_blank($post->dialogue[$i]->name) ? ('<b>' . $post->dialogue[$i]->name . '</b>: ') : "") . $post->dialogue[$i]->phrase . '</blockquote>';
+                        }
+                    }
+                    /* This seems to just post a duplicate of a QA answer 
+                    if (isset($post->reblog->comment) && $post->reblog->comment !== '') {
+                        $card_columns .= '<p class="card-text reblog-comment">' . $post->reblog->comment . '</p>';
+                    }
+                    */
                     // $card_columns .= '<a href="' . $post->post_url . '" class="card-link">Visit Post &rarr;</a>';
-                    $card_columns .= '<div class="card-footer d-flex justify-content-between align-items-center p-0"><div class="note-count">' . $post->note_count . ' notes</div>';
-                    $card_columns .= '<div class="post-icons"><a href="#"><i data-feather="send"></i></a>';
-                    $card_columns .= '<a href="#"><i data-feather="message-square"></i></a>';
-                    $card_columns .= '<a href="#"><i data-feather="repeat"></i></a>';
-                    $card_columns .= '<a href="#"><i data-feather="heart"></i></a></div></div>';
+                    $card_columns .= '<div class="card-footer d-flex justify-content-between align-items-center p-0"><div class="note-count">' . number_format($post->note_count, 0) . ' notes</div>';
+                    $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr"><i data-feather="external-link"></i></a>';
+                    $card_columns .= '<a href="#" title="Share"><i data-feather="send"></i></a>';
+                    $card_columns .= '<a href="#" title="Comment"><i data-feather="message-square"></i></a>';
+                    $card_columns .= '<a href="#" title="Reblog"><i data-feather="repeat"></i></a>';
+                    $card_columns .= '<a href="#" title="Like"><i data-feather="heart"></i></a></div></div>';
                     $card_columns .= '</div></div>';
                 }
                 $card_columns .= '</div>';
@@ -229,7 +258,7 @@
                 </li>
                 <li class="page-item '; echo ($page <= 1 ? "disabled" : "");  echo '"><a class="page-link"
                         href="./?page='; echo ($page-1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '">'; echo ($page-1); echo '</a></li>
-                <li class="page-item"><a class="page-link" href="#">'; echo $page; echo '</a></li>
+                <li class="page-item active"><a class="page-link" href="#">'; echo $page; echo '</a></li>
                 <li class="page-item"><a class="page-link"
                         href="./?page='; echo ($page+1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '">'; echo ($page+1); echo '</a></li>
                 <li class="page-item">
@@ -263,9 +292,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
-    <script>
-        feather.replace()
-    </script>
+    <script>feather.replace();</script>
 </body>
 
 </html>';

@@ -1,3 +1,11 @@
+@media (min-width: 34em) {
+    .card-columns {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+    }
+}
+
 body {
     background: #121212;
     color: #ccc;
@@ -19,6 +27,10 @@ h4,
 h5,
 h6 {
     color: white;
+}
+
+iframe {
+	width: 100%;
 }
 
 .navbar {
@@ -107,4 +119,9 @@ blockquote p {
     cursor: auto;
     background-color: #202020;
     border-color: #3b3b3b;
+}
+
+.page-item.active .page-link {
+	background-color: #dc3545;
+	border-color: #dc3545;
 }
