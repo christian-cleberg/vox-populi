@@ -116,14 +116,14 @@
                                         Filter Posts
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="./?type=audio">Audio</a>
-                                        <a class="dropdown-item" href="./?type=chat">Chat</a>
-                                        <a class="dropdown-item" href="./?type=link">Link</a>
-                                        <a class="dropdown-item" href="./?type=photo">Photo</a>
-                                        <a class="dropdown-item" href="./?type=text">Text</a>
-                                        <a class="dropdown-item" href="./?type=video">Video</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=audio">Audio</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=chat">Chat</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=link">Link</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=photo">Photo</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=text">Text</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=video">Video</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="./">All Posts</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] : ""); echo '">All Posts</a>
                                     </div>
                                 </li>
                                 <li class="nav-item">
@@ -223,17 +223,17 @@
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <li class="page-item '; echo ($page <= 1 ? "disabled" : ""); echo'">
-                    <a class="page-link" href="./?page='; echo ($page-1); echo '" aria-label="Previous">
+                    <a class="page-link" href="./?page='; echo ($page-1); echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo '" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item '; echo ($page <= 1 ? "disabled" : ""); echo '"><a class="page-link"
-                        href="./?page='; echo ($page-1); echo '">'; echo ($page-1); echo '</a></li>
+                <li class="page-item '; echo ($page <= 1 ? "disabled" : "");  echo '"><a class="page-link"
+                        href="./?page='; echo ($page-1); echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo '">'; echo ($page-1); echo '</a></li>
                 <li class="page-item"><a class="page-link" href="#">'; echo $page; echo '</a></li>
                 <li class="page-item"><a class="page-link"
-                        href="./?page='; echo ($page+1); echo '">'; echo ($page+1); echo '</a></li>
+                        href="./?page='; echo ($page+1); echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo '">'; echo ($page+1); echo '</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="./?page='; echo ($page+1); echo'" aria-label="Next">
+                    <a class="page-link" href="./?page='; echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo ($page+1); echo'" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
