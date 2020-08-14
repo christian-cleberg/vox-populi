@@ -10,9 +10,14 @@
     $requestHandler->setBaseUrl('https://www.tumblr.com/');
     
     // Check if the user has already authenticated
-    if(isset($_SESSION['perm_token']) && !empty($_SESSION['perm_token'] && isset($_SESSION['perm_secret']) && !empty($_SESSION['perm_secret']))) {
+    if(isset($_SESSION['perm_token']) && !empty($_SESSION['perm_token']) && isset($_SESSION['perm_secret']) && !empty($_SESSION['perm_secret'])) {
         $token = $_SESSION['perm_token'];
         $token_secret = $_SESSION['perm_secret'];
+    }
+    // Check if the user was here earlier by checking cookies
+    else if (isset($_COOKIE['perm_token']) && !empty($_COOKIE['perm_token']) && isset($_COOKIE['perm_secret']) && !empty($_COOKIE['perm_secret'])) {
+        $token = $_COOKIE['perm_token'];
+        $token_secret = $_COOKIE['perm_secret'];
     }
     // Check if this is the user's first visit
     else if (!isset($_GET['oauth_verifier'])) {
@@ -51,9 +56,12 @@
         // Set permanent tokens
         $token = $data['oauth_token'];
         $token_secret = $data['oauth_token_secret'];;
-        
         $_SESSION['perm_token'] = $data['oauth_token'];
         $_SESSION['perm_secret'] = $data['oauth_token_secret'];
+
+        // Set cookies in case the user comes back later
+        setcookie("perm_token", $_SESSION['perm_token']);
+        setcookie("perm_secret", $_SESSION['perm_secret']);
         
         // Redirect user to homepage for a clean URL
         session_regenerate_id(true);
