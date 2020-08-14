@@ -130,7 +130,7 @@
                                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link logout" href="logout.php" target="_blank">Logout</a>
+                                    <a class="nav-link logout" href="logout.php">Logout</a>
                                 </li>
                             </ul>
                             <!--
