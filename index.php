@@ -1,199 +1,148 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="author" content="Christian Cleberg">
-    <meta name="description" content="Vox Populi is a web client for Tumblr, allowing users with tokens to access their dashboards.">
-    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon/favicon-16x16.png">
-    <link rel="manifest" href="./favicon/site.webmanifest">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <title>Vox Populi - A Tumblr Web Client</title>
-    <style>
-        body {
-            background: #121212;
-            color: #ccc;
-        }
-
-        p {
-            font-size: 0.8rem;
-        }
-
-        a,
-        a:hover {
-            color: #dc3545;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: white;
-        }
-
-        .nvabar {
-            background: #121212;
-        }
+<?php
+    require __DIR__ . '/vendor/autoload.php';
+    
+    session_start();
+    
+    $consumer_key = getenv('CONSUMER_KEY');
+    $consumer_secret = getenv('CONSUMER_SECRET');
+    $client = new Tumblr\API\Client($consumer_key, $consumer_secret);
+    $requestHandler = $client->getRequestHandler();
+    $requestHandler->setBaseUrl('https://www.tumblr.com/');
+    
+    // Check if the user has already authenticated
+    if(isset($_SESSION['perm_token']) && !empty($_SESSION['perm_token'] && isset($_SESSION['perm_secret']) && !empty($_SESSION['perm_secret']))) {
+        $token = $_SESSION['perm_token'];
+        $token_secret = $_SESSION['perm_secret'];
+    }
+    // Check if this is the user's first visit
+    else if (!isset($_GET['oauth_verifier'])) {
+    
+        // Grab the oauth token
+        $resp = $requestHandler->request('POST', 'oauth/request_token', array());
+        $out = $result = $resp->body;
+        $data = array();
+        parse_str($out, $data);
         
-        .dropdown-menu {
-            background-color: #202020;
-        }
+        // Save temporary tokens to session
+        $_SESSION['tmp_token'] = $data['oauth_token'];
+        $_SESSION['tmp_secret'] = $data['oauth_token_secret'];
+    
+        // Redirect user to Tumblr auth page
+        session_regenerate_id(true);
+        $header_url = 'https://www.tumblr.com/oauth/authorize?oauth_token=' . $data['oauth_token'];
+        header('Location: ' . $header_url);
+        die();
+    
+    }
+    // Check if the user was just sent back from the Tumblr authentication site
+    else {
+    
+        $verifier = $_GET['oauth_verifier'];
+    
+        // Use the stored temporary tokens
+        $client->setToken($_SESSION['tmp_token'], $_SESSION['tmp_secret']);
+    
+        // Access the permanent tokens
+        $resp = $requestHandler->request('POST', 'oauth/access_token', array('oauth_verifier' => $verifier));
+        $out = $result = $resp->body;
+        $data = array();
+        parse_str($out, $data);
+    
+        // Set permanent tokens
+        $token = $data['oauth_token'];
+        $token_secret = $data['oauth_token_secret'];;
         
-        .dropdown-item {
-            color: #ccc;
-        }
+        $_SESSION['perm_token'] = $data['oauth_token'];
+        $_SESSION['perm_secret'] = $data['oauth_token_secret'];
         
-        .dropdown-item:focus, .dropdown-item:hover {
-            background-color: #3b3b3b;
-            color: #dc3545;
-        }
-        
-        .dropdown-divider {
-            border-top: 1px solid #3b3b3b;
-        }
+        // Redirect user to homepage for a clean URL
+        session_regenerate_id(true);
+        $header_url = 'https://cleberg.io/vox-populi/';
+        header('Location: ' . $header_url);
+        die();
+    
+    }
 
-        .card {
-            background: #202020;
-        }
-
-        .card-body img {
-            width: 100%;
-        }
-
-        .card-footer {
-            border: none;
-        }
-
-        hr {
-            border-top: 1px solid #ccc;
-        }
-
-        blockquote {
-            background: #3b3b3b;
-            border-left: 2px solid #dc3545;
-            margin: 0.5rem auto;
-            padding: 0.25rem 0.5rem;
-        }
-
-        blockquote p {
-            margin-bottom: 0;
-        }
-
-        .avatar {
-            height: 32px;
-            margin-right: 0.75rem;
-            width: 32px;
-        }
-
-        .feather {
-            margin: 0 0.2rem;
-        }
-
-        .page-link {
-            color: #dc3545;
-            background-color: #202020;
-            border: 1px solid #3b3b3b;
-        }
-
-        .page-link:hover {
-            color: #dc3545;
-            background-color: #202020;
-            border-color: #3b3b3b;
-        }
-
-        .page-link:focus {
-            box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .25);
-        }
-        
-        .page-item.disabled .page-link {
-            color: #dc3545;
-            opacity: 0.5;
-            pointer-events: none;
-            cursor: auto;
-            background-color: #202020;
-            border-color: #3b3b3b;
-        }
-    </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Vox Populi</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-0 ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Filter Posts
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="./?type=audio">Audio</a>
-                            <a class="dropdown-item" href="./?type=chat">Chat</a>
-                            <a class="dropdown-item" href="./?type=link">Link</a>
-                            <a class="dropdown-item" href="./?type=photo">Photo</a>
-                            <a class="dropdown-item" href="./?type=text">Text</a>
-                            <a class="dropdown-item" href="./?type=video">Video</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="./">All Posts</a>
+    // Authenticate via OAuth
+    $client = new Tumblr\API\Client(
+        $consumer_key,
+        $consumer_secret,
+        $token,
+        $token_secret
+    );
+    
+    // Echo HTML contents
+    echo '<!doctype html><html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                <meta http-equiv="x-ua-compatible" content="ie=edge">
+                <meta name="author" content="Christian Cleberg">
+                <meta name="description" content="Vox Populi is a web client for Tumblr, allowing you to access you personal Tumblr dashboard without ads.">
+                <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
+                <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
+                <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
+                <link rel="manifest" href="./assets/favicon/site.webmanifest">
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+                    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+                <title>Vox Populi - A Tumblr Web Client</title>
+                <link href="./assets/css/app.css">
+            </head>
+            <body>
+                <nav class="navbar navbar-expand-lg navbar-dark">
+                    <div class="container">
+                        <a class="navbar-brand" href="#">Vox Populi</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+            
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-0 ml-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Filter Posts
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="./?type=audio">Audio</a>
+                                        <a class="dropdown-item" href="./?type=chat">Chat</a>
+                                        <a class="dropdown-item" href="./?type=link">Link</a>
+                                        <a class="dropdown-item" href="./?type=photo">Photo</a>
+                                        <a class="dropdown-item" href="./?type=text">Text</a>
+                                        <a class="dropdown-item" href="./?type=video">Video</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="./">All Posts</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub <i data-feather="arrow-up-right"></i></a>
+                                </li>
+                            </ul>
+                            <!--
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+                            -->
                         </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub <i data-feather="arrow-up-right"></i></a>
-                    </li>
-                </ul>
-                <!--
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-                -->
-            </div>
-        </div>
-    </nav>
+                    </div>
+                </nav>
+                <div class="container">';
 
-    <div class="container">
-        <?php
-            require __DIR__ . '/vendor/autoload.php';
-
-            $consumer_key = getenv('CONSUMER_KEY');
-            $consumer_secret = getenv('CONSUMER_SECRET');
-            $token = getenv('TOKEN');
-            $token_secret = getenv('TOKEN_SECRET');
-
-            // Authenticate via OAuth
-            $client = new Tumblr\API\Client(
-                $consumer_key,
-                $consumer_secret,
-                $token,
-                $token_secret
-            );
-        
-            // Make the request
+            // Get the user's blog name for welcome message
             $client->getUserInfo();
             foreach ($client->getUserInfo()->user->blogs as $blog) {
                 echo '<h1 class="text-center py-4">Welcome, <a href="https://' . $blog->name . '.tumblr.com">' . $blog->name . '</a>!</h1>';
             }
 
-            // Create function to allow a client to get a set of posts
+            // Create function to allow a client to get 20 posts per page
             function get_dashboard_posts($client, $post_start, $limit, $post_type) {
                 if ($post_type != NULL) {
                     $dashboard_posts = $client->getDashboardPosts(array('limit' => $limit, 'offset' => $post_start, 'type' => $post_type));
@@ -259,21 +208,24 @@
             $post_start = (($page - 1) * 20) + 1;
             $limit = 20;
             echo get_dashboard_posts($client, $post_start, $limit, $post_type);
-        ?>
+            
+            // Echo HTML page navigation
+            // Embedded PHP tags here are calculating page numbers for URL parameters
+            echo '
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
-                <li class="page-item <?php echo ($page <= 1 ? 'disabled' : '');?>">
-                    <a class="page-link" href="./?page=<?php echo ($page-1); ?>" aria-label="Previous">
+                <li class="page-item '; echo ($page <= 1 ? "disabled" : ""); echo'">
+                    <a class="page-link" href="./?page='; echo ($page-1); echo '" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item <?php echo ($page <= 1 ? 'disabled' : '');?>"><a class="page-link"
-                        href="./?page=<?php echo ($page-1); ?>"><?php echo ($page-1); ?></a></li>
-                <li class="page-item"><a class="page-link" href="#"><?php echo $page; ?></a></li>
+                <li class="page-item '; echo ($page <= 1 ? "disabled" : ""); echo '"><a class="page-link"
+                        href="./?page='; echo ($page-1); echo '">'; echo ($page-1); echo '</a></li>
+                <li class="page-item"><a class="page-link" href="#">'; echo $page; echo '</a></li>
                 <li class="page-item"><a class="page-link"
-                        href="./?page=<?php echo ($page+1); ?>"><?php echo ($page+1); ?></a></li>
+                        href="./?page='; echo ($page+1); echo '">'; echo ($page+1); echo '</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="./?page=<?php echo ($page+1); ?>" aria-label="Next">
+                    <a class="page-link" href="./?page='; echo ($page+1); echo'" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
@@ -295,4 +247,5 @@
     </script>
 </body>
 
-</html>
+</html>';
+?>
