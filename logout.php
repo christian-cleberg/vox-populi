@@ -29,8 +29,8 @@ echo '<!doctype html><html lang="en">
             <title>Vox Populi - A Tumblr Web Client</title>
         </head>
         <body>
-            <div class="container d-flex align-items-center justify-content-center" style="min-height:100vh;">
-                <h1>Goodbye!</h1>
+            <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height:100vh;">
+                <h1 class="mb-4">Goodbye!</h1>
                 <a class="btn btn-danger" href="./">Sign in</a>
             </div>
         </body>
