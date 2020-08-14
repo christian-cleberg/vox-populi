@@ -5,5 +5,5 @@ deployment:
   - /bin/cp index.php $DEPLOYPATH
   - /bin/cp composer.json $DEPLOYPATH
   - /bin/cp composer.lock $DEPLOYPATH
-  - /bin/cp -R favicon $DEPLOYPATH
+  - /bin/cp -R assets $DEPLOYPATH
   - /bin/cp -R vendor $DEPLOYPATH
