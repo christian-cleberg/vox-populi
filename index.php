@@ -223,17 +223,17 @@
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <li class="page-item '; echo ($page <= 1 ? "disabled" : ""); echo'">
-                    <a class="page-link" href="./?page='; echo ($page-1); echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo '" aria-label="Previous">
+                    <a class="page-link" href="./?page='; echo ($page-1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 <li class="page-item '; echo ($page <= 1 ? "disabled" : "");  echo '"><a class="page-link"
-                        href="./?page='; echo ($page-1); echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo '">'; echo ($page-1); echo '</a></li>
+                        href="./?page='; echo ($page-1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '">'; echo ($page-1); echo '</a></li>
                 <li class="page-item"><a class="page-link" href="#">'; echo $page; echo '</a></li>
                 <li class="page-item"><a class="page-link"
-                        href="./?page='; echo ($page+1); echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo '">'; echo ($page+1); echo '</a></li>
+                        href="./?page='; echo ($page+1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '">'; echo ($page+1); echo '</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="./?page='; echo (isset($_GET['type']) > "&type=" . $_GET['type'] : ""); echo ($page+1); echo'" aria-label="Next">
+                    <a class="page-link" href="./?page='; echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo ($page+1); echo'" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
