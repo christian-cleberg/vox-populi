@@ -116,14 +116,14 @@
                                         Filter Posts
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=audio">Audio</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=chat">Chat</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=link">Link</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=photo">Photo</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=text">Text</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] . "&" : "?"); echo 'type=video">Video</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=audio">Audio</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=chat">Chat</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=link">Link</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=photo">Photo</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=text">Text</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=video">Video</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) > "?page=" . $_GET['page'] : ""); echo '">All Posts</a>
+                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page']) : ""); echo '">All Posts</a>
                                     </div>
                                 </li>
                                 <li class="nav-item">
