@@ -130,7 +130,7 @@
                                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub <i data-feather="arrow-up-right"></i></a>
+                                    <a class="nav-link logout" href="logout.php" target="_blank">Logout</a>
                                 </li>
                             </ul>
                             <!--
@@ -240,6 +240,19 @@
             </ul>
         </nav>
     </div>
+    <footer class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p><a href="https://cleberg.io">Christian Cleberg</a> © 2016 - '; echo date("Y"); echo '</p>
+                    <p><a href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub Source Code</a></p>
+                </div>
+                <div class="col">
+                    <a class="float-right" href="#">Back to top</a>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">

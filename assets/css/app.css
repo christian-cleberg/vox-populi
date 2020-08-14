@@ -21,7 +21,7 @@ h6 {
     color: white;
 }
 
-.nvabar {
+.navbar {
     background: #121212;
 }
 
@@ -40,6 +40,11 @@ h6 {
 
 .dropdown-divider {
     border-top: 1px solid #3b3b3b;
+}
+
+.logout {
+    background: #dc3545;
+    color: white;
 }
 
 .card {
