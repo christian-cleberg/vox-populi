@@ -3,6 +3,7 @@ deployment:
  tasks:
   - export DEPLOYPATH=/home/christian/public_html/vox-populi/
   - /bin/cp index.php $DEPLOYPATH
+  - /bin/cp logout.php $DEPLOYPATH
   - /bin/cp composer.json $DEPLOYPATH
   - /bin/cp composer.lock $DEPLOYPATH
   - /bin/cp -R assets $DEPLOYPATH
