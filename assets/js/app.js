@@ -1,3 +1,6 @@
+// Generate feather icons
+feather.replace({ "height": 16, 'width': 16 });
+
 function like(post_id, reblog_key) {
     $.ajax({
         url: "action.php?action=like&post_id=" + post_id + "&reblog_key=" + reblog_key,

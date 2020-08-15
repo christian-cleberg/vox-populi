@@ -83,9 +83,6 @@
     function not_blank($value) {
         return !empty($value) && isset($value) && $value !== '';
     }
-
-    // Prepare feather icons
-    $icons = new Feather\Icons;
     
     // Echo HTML contents
     echo '<!doctype html><html lang="en">
@@ -180,7 +177,7 @@
                     $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog"><a href="' . $post->blog->url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->blog_name, 32) . '"></a>';
                     $card_columns .= '<a href="' . $post->blog->url . '">' . $post->blog_name . '</a>';
                     if (not_blank($post->reblogged_from_name)) {
-                        $card_columns .= $icons->get('repeat', array('height' => 16, 'width' => 16, 'aria-label' => 'reblogged from')) . '<a href="' . $post->reblogged_from_url . '">' . $post->reblogged_from_name . '</a>';
+                        $card_columns .= '<i data-feather="repeat"></i><a href="' . $post->reblogged_from_url . '">' . $post->reblogged_from_name . '</a>';
                         if (!$post->reblogged_from_following) {
                             $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->reblogged_from_name . '\', ' . $post->reblogged_from_uuid . ');" data-follow-id="' . $post->reblogged_from_uuid . '"><span class="badge badge-secondary ml-2">Follow</span></a>';
                         }
@@ -191,7 +188,7 @@
                     if ($post->followed) {
                         $card_columns .= '</div>';
                     } else {
-                        $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->blog_name . '\', ' . $post->blog->uuid . ');" title="Follow" data-id="' . $post->blog->uuid . '">' . $icons->get('user-plus', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a></div>';
+                        $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->blog_name . '\', ' . $post->blog->uuid . ');" title="Follow" data-id="' . $post->blog->uuid . '"><i data-feather="user-plus"></i></a></div>';
                     }
                     
                     // Add root blog (original poster)
@@ -205,7 +202,7 @@
                         $card_columns .= '<a href="' . $post->reblogged_root_url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->reblogged_root_name, 32) . '"></a>';
                         $card_columns .= '<a href="' . $post->reblogged_root_url . '">' . $post->reblogged_root_name . '</a></div>';
                         if (strpos($post->reblogged_root_name, 'deactivated') == false) {
-                            $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->reblogged_root_name . '\');" title="Follow" data-id="' . $post->reblogged_root_uuid . '">' . $icons->get('user-plus', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
+                            $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->reblogged_root_name . '\');" title="Follow" data-id="' . $post->reblogged_root_uuid . '"><i data-feather="user-plus"></i></a>';
                         }
                         $card_columns .= '</div>';
                     }
@@ -251,17 +248,17 @@
                     */
                     // $card_columns .= '<a href="' . $post->post_url . '" class="card-link">Visit Post &rarr;</a>';
                     $card_columns .= '<div class="card-footer d-flex justify-content-between align-items-center p-0"><div class="note-count">' . number_format($post->note_count, 0) . ' notes</div>';
-                    $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr">' . $icons->get('external-link', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                    $card_columns .= '<a href="#" title="Share">' . $icons->get('send', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                    $card_columns .= '<a href="#" title="Comment">' . $icons->get('message-square', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                    $card_columns .= '<a href="#" title="Reblog">' . $icons->get('repeat', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
+                    $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr"><i data-feather="external-link"></i></a>';
+                    $card_columns .= '<a href="#" title="Share"><i data-feather="send"></i></a>';
+                    $card_columns .= '<a href="#" title="Comment"><i data-feather="message-square"></i></a>';
+                    $card_columns .= '<a href="#" title="Reblog"><i data-feather="repeat"></i></a>';
                     
                     if ($post->liked != true) {
                         // Like this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="like(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Like" data-id="' . $post->id . '">' . $icons->get('heart', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a></div></div>';
+                        $card_columns .= '<a href="javascript:void(0);" onclick="like(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Like" data-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
                     } else {
                         // Unlike this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="unlike(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unlike" data-id="' . $post->id . '">' . $icons->get('heart', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a></div></div>';
+                        $card_columns .= '<a href="javascript:void(0);" onclick="unlike(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unlike" data-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
                     }
                     
                     $card_columns .= '</div></div>';

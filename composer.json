@@ -1,6 +1,5 @@
 {
     "require": {
-        "tumblr/tumblr": "^0.4.0",
-        "pixelrobin/php-feather": "^1.0"
+        "tumblr/tumblr": "^0.4.0"
     }
 }
