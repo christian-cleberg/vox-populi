@@ -83,19 +83,18 @@
     function not_blank($value) {
         return !empty($value) && isset($value) && $value !== '';
     }
+    
+    // Grab the callback URL
+    $url = $_GET['callback'];
+    if (!not_blank($url)) {
+        $url = 'Location: https://cleberg.io/vox-populi/';
+    }
 
     // See what action we need to do
-    if (not_blank($action)) {
-        $action = $_GET['action'];
-        $url = $_GET['callback'];
-    } else {
-        if (not_blank($_GET['callback'])) {
-            header('Location: ' . $_GET['callback']);
-            die();
-        } else {
-            header('Location: https://cleberg.io/vox-populi/');
-            die();
-        }
+    $action = $_GET['action'];
+    if (!not_blank($action)) {
+        header('Location: ' . $url);
+        die();
     }
 
     // Follow a new blog
@@ -103,24 +102,9 @@
         $blogName = $_GET['blog_name'];
         if(not_blank($blogName)) {
             $client->follow($blogName);
-            
-            // Add parameter so we can send a success alert
-            $separator = "?";
-            if (strpos($url,"?")!=false) {
-                $separator = "&";
-            }
-            $new_url = $url . $separator . 'followed=true';
-            header('Location: ' . $new_url);
-            die();
+            print 'success';
         } else {
-            // Add parameter so we can send a failure alert
-            $separator = "?";
-            if (strpos($url,"?")!=false) {
-                $separator = "&";
-            }
-            $new_url = $url . $separator . 'followed=false';
-            header('Location: ' . $new_url);
-            die();
+            print 'failure';
         }
     }
 
@@ -129,27 +113,33 @@
         $blogName = $_GET['blog_name'];
         if(not_blank($blogName)) {
             $client->unfollow($blogName);
-            echo "Success";
-            
-            // Add parameter so we can send a success alert
-            $separator = "?";
-            if (strpos($url,"?")!=false) {
-                $separator = "&";
-            }
-            $new_url = $url . $separator . 'unfollowed=true';
-            header('Location: ' . $new_url);
-            die();
+            print 'success';
         } else {
-            echo "Error: No blog name supplied.";
-            // Add parameter so we can send a failure alert
-            $separator = "?";
-            if (strpos($url,"?")!=false) {
-                $separator = "&";
-            }
-            $new_url = $url . $separator . 'unfollowed=false';
-            header('Location: ' . $new_url);
-            die();
+            print 'failure';
         }
     }
-
+    
+    // Like a post
+    if ($action == "like") {
+        $postId = $_GET['post_id'];
+        $reblogKey = $_GET['reblog_key'];
+        if(not_blank($postId) && not_blank($reblogKey)) {
+            $client->like($postId, $reblogKey);
+            print 'success';
+        } else {
+            print 'failure';
+        }
+    }
+    
+    // Unlike a post
+    if ($action == "unlike") {
+        $postId = $_GET['post_id'];
+        $reblogKey = $_GET['reblog_key'];
+        if(not_blank($postId) && not_blank($reblogKey)) {
+            $client->unlike($postId, $reblogKey);
+            print 'success';
+        } else {
+            print 'failure';
+        }
+    }
 ?>

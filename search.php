@@ -83,9 +83,6 @@
     function not_blank($value) {
         return !empty($value) && isset($value) && $value !== '';
     }
-
-    // Prepare feather icons
-    $icons = new Feather\Icons;
     
     // Echo HTML contents
     echo '<!doctype html><html lang="en">
@@ -115,26 +112,8 @@
             
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-0 ml-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Filter Posts
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=answer">Answer</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=audio">Audio</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=chat">Chat</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=link">Link</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=photo">Photo</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=quote">Quote</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=text">Text</a>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page'] . "&") : "?"); echo 'type=video">Video</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="./'; echo (isset($_GET['page']) ? ("?page=" . $_GET['page']) : ""); echo '">All Posts</a>
-                                    </div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="./">Home</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
@@ -155,58 +134,26 @@
                 <div class="container">';
 
             // Get the user's blog name for welcome message
-            if ($client->getUserInfo()) {
-                $client->getUserInfo();
-            } else {
-                // Echo rate-limit error message
-                $rate_error = '<div id="rate-limit-exceeded" class="alert alert-danger my-5"><b>[429] Error</b>: Tumblr rate limit exceeded. Please visit again tomorrow.</div>';
-                echo $rate_error;
-                die();
-            }
+            $client->getUserInfo();
             foreach ($client->getUserInfo()->user->blogs as $blog) {
-                echo '<h1 class="text-center py-4">Welcome, <a href="https://' . $blog->name . '.tumblr.com">' . $blog->name . '</a>!</h1>';
+                echo '<h1 class="text-center py-4">Search results for: ' . $_GET['query'] . '</h1>';
             }
 
             // Create function to allow a client to get 20 posts per page
-            function get_dashboard_posts($client, $post_start, $limit, $post_type) {
-                if ($post_type != NULL) {
-                    $dashboard_posts = $client->getDashboardPosts(array('limit' => $limit, 'offset' => $post_start, 'reblog_info' => true, 'type' => $post_type));
-                } else {
-                    $dashboard_posts = $client->getDashboardPosts(array('limit' => $limit, 'offset' => $post_start, 'reblog_info' => true));
-                }
+            function get_tagged_posts($client, $before_date, $limit) {
+                $tag = $_GET['query'];
+                $tagged_posts = $client->getTaggedPosts($tag, $options=null);
                 $card_columns = '<div class="card-columns">';
-                foreach ($dashboard_posts->posts as $post) {
+                foreach ($tagged_posts as $post) {
                     $card_columns .= '<div class="card" data-type="' . $post->type . '" data-id="' . $post->id_string . '">';
                     $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog"><a href="' . $post->blog->url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->blog_name, 32) . '"></a>';
-                    $card_columns .= '<a href="' . $post->blog->url . '">' . $post->blog_name . '</a>';
-                    if (not_blank($post->reblogged_from_name)) {
-                        $card_columns .= $icons->get('repeat', array('height' => 16, 'width' => 16, 'aria-label' => 'reblogged from')) . '<a href="' . $post->reblogged_from_url . '">' . $post->reblogged_from_name . '</a>';
-                        if (!$post->reblogged_from_following) {
-                            $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->reblogged_from_name . '\', ' . $post->reblogged_from_uuid . ');" data-follow-id="' . $post->reblogged_from_uuid . '"><span class="badge badge-secondary ml-2">Follow</span></a>';
-                        }
-                    }
-                    $card_columns .= '</div>';
+                    $card_columns .= '<a href="' . $post->blog->url . '">' . $post->blog_name . '</a></div>';
                     
-                    // Add 'follow user' button if not following blog
-                    if ($post->followed) {
-                        $card_columns .= '</div>';
+                    if ($post->followed != true) {
+                        // Send user to action.php to follow a new blog
+                        $query_string = 'action=follow&blog_name=' . urlencode($post->blog_name) . '&callback=' . urlencode('https://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
+                        $card_columns .= '<a href="action.php?' . htmlentities($query_string) . '"><i data-feather="user-plus"></i></a></div>';
                     } else {
-                        $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->blog_name . '\', ' . $post->blog->uuid . ');" title="Follow" data-id="' . $post->blog->uuid . '">' . $icons->get('user-plus', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a></div>';
-                    }
-                    
-                    // Add root blog (original poster)
-                    if ($post->reblogged_root_following) {
-                        $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog">';
-                        $card_columns .= '<a href="' . $post->reblogged_root_url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->reblogged_root_name, 32) . '"></a>';
-                        $card_columns .= '<a href="' . $post->reblogged_root_url . '">' . $post->reblogged_root_name . '</a></div>';
-                        $card_columns .= '</div>';
-                    } else {
-                        $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog">';
-                        $card_columns .= '<a href="' . $post->reblogged_root_url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->reblogged_root_name, 32) . '"></a>';
-                        $card_columns .= '<a href="' . $post->reblogged_root_url . '">' . $post->reblogged_root_name . '</a></div>';
-                        if (strpos($post->reblogged_root_name, 'deactivated') == false) {
-                            $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->reblogged_root_name . '\');" title="Follow" data-id="' . $post->reblogged_root_uuid . '">' . $icons->get('user-plus', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                        }
                         $card_columns .= '</div>';
                     }
                     
@@ -251,19 +198,11 @@
                     */
                     // $card_columns .= '<a href="' . $post->post_url . '" class="card-link">Visit Post &rarr;</a>';
                     $card_columns .= '<div class="card-footer d-flex justify-content-between align-items-center p-0"><div class="note-count">' . number_format($post->note_count, 0) . ' notes</div>';
-                    $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr">' . $icons->get('external-link', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                    $card_columns .= '<a href="#" title="Share">' . $icons->get('send', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                    $card_columns .= '<a href="#" title="Comment">' . $icons->get('message-square', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                    $card_columns .= '<a href="#" title="Reblog">' . $icons->get('repeat', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a>';
-                    
-                    if ($post->liked != true) {
-                        // Like this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="like(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Like" data-id="' . $post->id . '">' . $icons->get('heart', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a></div></div>';
-                    } else {
-                        // Unlike this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="unlike(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unlike" data-id="' . $post->id . '">' . $icons->get('heart', array('height' => 20, 'width' => 20, 'aria-label' => 'reblogged from')) . '</a></div></div>';
-                    }
-                    
+                    $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr"><i data-feather="external-link"></i></a>';
+                    $card_columns .= '<a href="#" title="Share"><i data-feather="send"></i></a>';
+                    $card_columns .= '<a href="#" title="Comment"><i data-feather="message-square"></i></a>';
+                    $card_columns .= '<a href="#" title="Reblog"><i data-feather="repeat"></i></a>';
+                    $card_columns .= '<a href="#" title="Like"><i data-feather="heart"></i></a></div></div>';
                     $card_columns .= '</div></div>';
                 }
                 $card_columns .= '</div>';
@@ -284,31 +223,9 @@
             }
             $post_start = (($page - 1) * 20) + 1;
             $limit = 20;
-            echo get_dashboard_posts($client, $post_start, $limit, $post_type);
+            echo get_tagged_posts($client, $post_start, $limit, $post_type);
             
-            // Echo HTML page navigation
-            // Embedded PHP tags here are calculating page numbers for URL parameters
-            echo '
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <li class="page-item '; echo ($page <= 1 ? "disabled" : ""); echo'">
-                    <a class="page-link" href="./?page='; echo ($page-1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item '; echo ($page <= 1 ? "disabled" : "");  echo '"><a class="page-link"
-                        href="./?page='; echo ($page-1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '">'; echo ($page-1); echo '</a></li>
-                <li class="page-item active"><a class="page-link" href="#">'; echo $page; echo '</a></li>
-                <li class="page-item"><a class="page-link"
-                        href="./?page='; echo ($page+1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo '">'; echo ($page+1); echo '</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="./?page='; echo ($page+1); echo (isset($_GET['type']) ? "&type=" . $_GET['type'] : ""); echo'" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    echo '</div>
     <footer class="py-5">
         <div class="container">
             <div class="row">
