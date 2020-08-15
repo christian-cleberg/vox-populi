@@ -35,6 +35,10 @@ class ComposerStaticInitf8d6d64bba203612c5380d5c06f720ff
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
+        'F' => 
+        array (
+            'Feather\\' => 8,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -69,6 +73,10 @@ class ComposerStaticInitf8d6d64bba203612c5380d5c06f720ff
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Feather\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pixelrobin/php-feather/src',
         ),
     );
 
