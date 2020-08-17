@@ -42,8 +42,8 @@ echo '<!doctype html><html lang="en">
             <div class="container-fluid d-flex flex-column align-items-center justify-content-center" style="min-height:100vh;">
                 <div class="card login-card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                        <h1 class="card-title mb-0">Welcome to Vox Populi</h1>
-                        <p class="card-text mb-4" style="font-size:1rem;">Use the button below to sign in with your Tumblr account.</p>
+                        <h1 class="card-title mb-0 text-center">Welcome to Vox Populi</h1>
+                        <p class="card-text mb-4 text-center" style="font-size:1rem;">Use the button below to sign in with your Tumblr account.</p>
                         <a class="bx--btn bx--btn--danger py-2 px-5" href="./dashboard/">Sign In</a>
                     </div>
                 </div>
