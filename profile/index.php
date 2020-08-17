@@ -1,5 +1,6 @@
 <?php
 
-echo "This page has not been configured yet."
+echo "<p>This page has not been configured yet.</p>";
+echo "<a href='../'>Return to Vox Populi</a>";
 
 ?>
