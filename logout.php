@@ -1,8 +1,11 @@
 <?php
 
 // Delete authentication cookies
+unset($_COOKIE["perm_token"]);
 setcookie("perm_token", "", time() - 3600);
+unset($_COOKIE["perm_secret"]);
 setcookie("perm_secret", "", time() - 3600);
+unset($_COOKIE["PHPSESSID"]);
 setcookie("PHPSESSID", "", time() - 3600);
 
 // Clear and destory session
