@@ -1,5 +1,5 @@
 <?php
-    require __DIR__ . '/vendor/autoload.php';
+    require __DIR__ . '../vendor/autoload.php';
     
     session_start();
     
@@ -91,46 +91,46 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="author" content="Christian Cleberg">
         <meta name="description" content="Vox Populi is a web client for Tumblr, allowing you to access you personal Tumblr dashboard without ads.">
-        <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
-        <link rel="manifest" href="./assets/favicon/site.webmanifest">
+        <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+        <link rel="manifest" href="../assets/favicon/site.webmanifest">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
             integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <link rel="stylesheet"  href="./assets/css/app.css">
+        <link rel="stylesheet"  href="../assets/css/app.css">
         <title>Vox Populi - A Tumblr Web Client</title>
         <style>
             @font-face {
                 font-family: "IBM Plex Sans";
-                src: url("./assets/fonts/IBMPlexSans-Regular.eot");
-                src: url("./assets/fonts/IBMPlexSans-Regular.woff2") format("woff2"),
-                    url("./assets/fonts/IBMPlexSans-Regular.woff") format("woff"),
-                    url("./assets/fonts/IBMPlexSans-Regular.ttf") format("truetype");
+                src: url("../assets/fonts/IBMPlexSans-Regular.eot");
+                src: url("../assets/fonts/IBMPlexSans-Regular.woff2") format("woff2"),
+                    url("../assets/fonts/IBMPlexSans-Regular.woff") format("woff"),
+                    url("../assets/fonts/IBMPlexSans-Regular.ttf") format("truetype");
             }
     
             @font-face {
                 font-family: "IBM Plex Sans";
-                src: url("./assets/fonts/IBMPlexSans-Bold.eot");
-                src: url("./assets/fonts/IBMPlexSans-Bold.woff2") format("woff2"),
-                    url("./assets/fonts/IBMPlexSans-Bold.woff") format("woff"),
-                    url("./assets/fonts/IBMPlexSans-Bold.ttf") format("truetype");
+                src: url("../assets/fonts/IBMPlexSans-Bold.eot");
+                src: url("../assets/fonts/IBMPlexSans-Bold.woff2") format("woff2"),
+                    url("../assets/fonts/IBMPlexSans-Bold.woff") format("woff"),
+                    url("../assets/fonts/IBMPlexSans-Bold.ttf") format("truetype");
                 font-weight: bold;
             }
     
             @font-face {
                 font-family: "IBM Plex Mono";
-                src: url("./assets/fonts/IBMPlexMono-Regular.eot");
-                src: url("./assets/fonts/IBMPlexMono-Regular.woff2") format("woff2"),
-                    url("./assets/fonts/IBMPlexMono-Regular.woff") format("woff"),
-                    url("./assets/fonts/IBMPlexMono-Regular.ttf") format("truetype");
+                src: url("../assets/fonts/IBMPlexMono-Regular.eot");
+                src: url("../assets/fonts/IBMPlexMono-Regular.woff2") format("woff2"),
+                    url("../assets/fonts/IBMPlexMono-Regular.woff") format("woff"),
+                    url("../assets/fonts/IBMPlexMono-Regular.ttf") format("truetype");
             }
     
             @font-face {
                 font-family: "IBM Plex Mono";
-                src: url("./assets/fonts/IBMPlexMono-Bold.eot");
-                src: url("./assets/fonts/IBMPlexMono-Bold.woff2") format("woff2"),
-                    url("./assets/fonts/IBMPlexMono-Bold.woff") format("woff"),
-                    url("./assets/fonts/IBMPlexMono-Bold.ttf") format("truetype");
+                src: url("../assets/fonts/IBMPlexMono-Bold.eot");
+                src: url("../assets/fonts/IBMPlexMono-Bold.woff2") format("woff2"),
+                    url("../assets/fonts/IBMPlexMono-Bold.woff") format("woff"),
+                    url("../assets/fonts/IBMPlexMono-Bold.ttf") format("truetype");
                 font-weight: bold;
             }
         </style>
@@ -165,7 +165,7 @@
                 </li>
             </ul>
             <form id="search-form" class="form-inline h-100 d-none flex-fill" method="get"
-                action="./search.php">
+                action="../search.php">
                 <input class="form-control h-100 ml-auto" type="search" placeholder="Search" aria-label="Search"
                     name="query">
                 <a id="search-close-button" class="nav-link" href="javascript:void(0)">
@@ -187,8 +187,8 @@
                             <ul class="actions">
                                 <li><p>Account</p></li>
                                 <hr class="sidebar-divider">
-                                <li><a href="./profile/">Profile</a></li>
-                                <li><a href="./logout.php">Logout</a></li>
+                                <li><a href="../profile/">Profile</a></li>
+                                <li><a href="../logout.php">Logout</a></li>
                             </ul>
                             <ul class="categories">
                                 <li><p>Filter</p></li>
@@ -397,6 +397,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <script src="./assets/js/app.js"></script>
+    <script src="../assets/js/app.js"></script>
 </body></html>';
 ?>
