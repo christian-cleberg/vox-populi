@@ -1,6 +1,6 @@
 function like(post_id, reblog_key) {
     $.ajax({
-        url: "action.php?action=like&post_id=" + post_id + "&reblog_key=" + reblog_key,
+        url: "https://cleberg.io/vox-populi/action.php?action=like&post_id=" + post_id + "&reblog_key=" + reblog_key,
         success: function (result) {
             if (result == "success") {
                 $("a[data-id='" + post_id + "'] svg").css("fill", "#dc3545");
@@ -13,7 +13,7 @@ function like(post_id, reblog_key) {
 
 function unlike(post_id, reblog_key) {
     $.ajax({
-        url: "action.php?action=unlike&post_id=" + post_id + "&reblog_key=" + reblog_key,
+        url: "https://cleberg.io/vox-populi/action.php?action=unlike&post_id=" + post_id + "&reblog_key=" + reblog_key,
         success: function (result) {
             if (result == "success") {
                 $("a[data-id='" + post_id + "'] svg").css("fill", "none");
@@ -26,7 +26,7 @@ function unlike(post_id, reblog_key) {
 
 function follow(blog_name, uuid) {
     $.ajax({
-        url: "action.php?action=follow&blog_name=" + blog_name,
+        url: "https://cleberg.io/vox-populi/action.php?action=follow&blog_name=" + blog_name,
         success: function (result) {
             if (result == "success") {
                 $("a[data-follow-id='" + uuid + "']").css("display", "none");
@@ -39,7 +39,7 @@ function follow(blog_name, uuid) {
 
 function unfollow(blog_name, uuid) {
     $.ajax({
-        url: "action.php?action=unfollow&blog_name=" + blog_name,
+        url: "https://cleberg.io/vox-populi/action.php?action=unfollow&blog_name=" + blog_name,
         success: function (result) {
             if (result == "success") {
                 alert("Successfully unfollowed blog.");
