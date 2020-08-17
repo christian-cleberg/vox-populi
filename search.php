@@ -193,14 +193,14 @@
                             <li><p>Filter Posts</p></li>
                             <hr class="sidebar-divider">
                             <li><a href="./">All Posts</a></li>
-                            <li><a href="./type=answer">Answer</a></li>
-                            <li><a href="./type=audio">Audio</a></li>
-                            <li><a href="./type=chat">Chat</a></li>
-                            <li><a href="./type=link">Link</a></li>
-                            <li><a href="./type=photo">Photo</a></li>
-                            <li><a href="./type=quote">Quote</a></li>
-                            <li><a href="./type=text">Text</a></li>
-                            <li><a href="./type=video">Video</a></li>
+                            <li><a href="./?type=answer">Answer</a></li>
+                            <li><a href="./?type=audio">Audio</a></li>
+                            <li><a href="./?type=chat">Chat</a></li>
+                            <li><a href="./?type=link">Link</a></li>
+                            <li><a href="./?type=photo">Photo</a></li>
+                            <li><a href="./?type=quote">Quote</a></li>
+                            <li><a href="./?type=text">Text</a></li>
+                            <li><a href="./?type=video">Video</a></li>
                         </ul>
                     </div>
                     <div>
