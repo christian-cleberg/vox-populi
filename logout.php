@@ -11,16 +11,11 @@ session_destroy();
 session_write_close();
 setcookie(session_name(),'',0,'/');
 
-// Unset cookies
-if (isset($_SERVER['HTTP_COOKIE'])) {
-    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-    foreach($cookies as $cookie) {
-        $parts = explode('=', $cookie);
-        $name = trim($parts[0]);
-        setcookie($name, '', time()-1000);
-        setcookie($name, '', time()-1000, '/');
-    }
-}
+// Unset session vars & cookies
+unset($_SESSION['perm_token']);
+unset($_SESSION['perm_secret']);
+setcookie("perm_token", "", time() - 360);
+setcookie("perm_secret", "", time() - 360);
 
 // Go back to sign-in page
 header('Location: https://cleberg.io/vox-populi/');
