@@ -85,58 +85,152 @@
     }
     
     // Echo HTML contents
-    echo '<!doctype html><html lang="en">
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-                <meta http-equiv="x-ua-compatible" content="ie=edge">
-                <meta name="author" content="Christian Cleberg">
-                <meta name="description" content="Vox Populi is a web client for Tumblr, allowing you to access you personal Tumblr dashboard without ads.">
-                <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
-                <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
-                <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
-                <link rel="manifest" href="./assets/favicon/site.webmanifest">
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-                    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-                <link rel="stylesheet"  href="./assets/css/app.css">
-                <title>Vox Populi - A Tumblr Web Client</title>
-            </head>
-            <body>
-                <nav class="navbar navbar-expand-lg navbar-dark">
-                    <div class="container">
-                        <a class="navbar-brand" href="./">Vox Populi</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-            
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mr-0 ml-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Profile</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link logout" href="logout.php">Logout</a>
-                                </li>
-                            </ul>
-                            <!--
-                            <form class="form-inline my-2 my-lg-0">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                            </form>
-                            -->
-                        </div>
+    echo '<!doctype html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="robots" content="none">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="./assets/favicon/site.webmanifest">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet"  href="./assets/css/app.css">
+    <title>Vox Populi - A Tumblr Web Client</title>
+    <style>
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("./assets/fonts/IBMPlexSans-Regular.eot");
+            src: url("./assets/fonts/IBMPlexSans-Regular.woff2") format("woff2"),
+                url("./assets/fonts/IBMPlexSans-Regular.woff") format("woff"),
+                url("./assets/fonts/IBMPlexSans-Regular.ttf") format("truetype");
+        }
+
+        @font-face {
+            font-family: "IBM Plex Sans";
+            src: url("./assets/fonts/IBMPlexSans-Bold.eot");
+            src: url("./assets/fonts/IBMPlexSans-Bold.woff2") format("woff2"),
+                url("./assets/fonts/IBMPlexSans-Bold.woff") format("woff"),
+                url("./assets/fonts/IBMPlexSans-Bold.ttf") format("truetype");
+            font-weight: bold;
+        }
+
+        @font-face {
+            font-family: "IBM Plex Mono";
+            src: url("./assets/fonts/IBMPlexMono-Regular.eot");
+            src: url("./assets/fonts/IBMPlexMono-Regular.woff2") format("woff2"),
+                url("./assets/fonts/IBMPlexMono-Regular.woff") format("woff"),
+                url("./assets/fonts/IBMPlexMono-Regular.ttf") format("truetype");
+        }
+
+        @font-face {
+            font-family: "IBM Plex Mono";
+            src: url("./assets/fonts/IBMPlexMono-Bold.eot");
+            src: url("./assets/fonts/IBMPlexMono-Bold.woff2") format("woff2"),
+                url("./assets/fonts/IBMPlexMono-Bold.woff") format("woff"),
+                url("./assets/fonts/IBMPlexMono-Bold.ttf") format("truetype");
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner fixed-top" role="contentinfo">
+        <p class="m-0 mr-2">Black Lives Matter.</p>
+        <a href="https://support.eji.org/give/153413/#!/donation/checkout">Support the <span
+                class="d-none d-md-inline">Equal Justice Initiative</span><span
+                class="d-inline d-md-none">EJI</span></a>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <li class="nav-item d-block d-md-none">
+            <a id="sidebarButton" class="nav-link" href="javascript:void(0)"><svg id="icon-side-menu"
+                    xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true">
+                    <path
+                        d="M14 4H18V8H14zM4 4H8V8H4zM24 4H28V8H24zM14 14H18V18H14zM4 14H8V18H4zM24 14H28V18H24zM14 24H18V28H14zM4 24H8V28H4zM24 24H28V28H24z">
+                    </path>
+                </svg></a>
+        </li>
+        <a class="navbar-brand" href="./">Vox Populi</a>
+
+        <ul class="navbar-nav mr-0 ml-auto flex-row">
+            <li class="nav-item">
+                <a id="search-button" class="nav-link" href="javascript:void(0)"><svg id="icon-search"
+                        xmlns="http://www.w3.org/2000/svg" description="Open search" width="20" height="20"
+                        viewBox="0 0 32 32" aria-hidden="true">
+                        <path d="M30,28.59,22.45,21A11,11,0,1,0,21,22.45L28.59,30ZM5,14a9,9,0,1,1,9,9A9,9,0,0,1,5,14Z">
+                        </path>
+                    </svg></a>
+            </li>
+        </ul>
+        <form id="search-form" class="form-inline h-100 d-none flex-fill" method="get"
+            action="./search.php">
+            <input class="form-control h-100 ml-auto" type="search" placeholder="Search" aria-label="Search"
+                name="query">
+            <a id="search-close-button" class="nav-link" href="javascript:void(0)">
+                <svg id="icon-search" xmlns="http://www.w3.org/2000/svg" description="Clear search" width="20"
+                    height="20" viewBox="0 0 32 32" aria-hidden="true">
+                    <path
+                        d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4 14.6 16 8 22.6 9.4 24 16 17.4 22.6 24 24 22.6 17.4 16 24 9.4z">
+                    </path>
+                </svg>
+            </a>
+        </form>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div id="sidebar" class="sidebar d-none d-md-block col-md-3 col-lg-2 p-0">
+                <div class="sidebar-box p-0">
+                    <div>
+                        <ul class="actions">
+                            <li><p>Account</p></li>
+                            <hr class="sidebar-divider">
+                            <li><a href="./profile/">Profile</a></li>
+                            <li><a href="./logout.php">Logout</a></li>
+                        </ul>
+                        <ul class="categories">
+                            <li><p>Filter Posts</p></li>
+                            <hr class="sidebar-divider">
+                            <li><a href="./">All Posts</a></li>
+                            <li><a href="./type=answer">Answer</a></li>
+                            <li><a href="./type=audio">Audio</a></li>
+                            <li><a href="./type=chat">Chat</a></li>
+                            <li><a href="./type=link">Link</a></li>
+                            <li><a href="./type=photo">Photo</a></li>
+                            <li><a href="./type=quote">Quote</a></li>
+                            <li><a href="./type=text">Text</a></li>
+                            <li><a href="./type=video">Video</a></li>
+                        </ul>
                     </div>
-                </nav>
-                <div class="container">';
+                    <div>
+                        <hr class="sidebar-divider">
+                        <ul class="meta">
+                            <li>
+                            <a href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub <svg
+                                        id="icon-external-link" xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" viewBox="0 0 16 16" aria-hidden="true">
+                                        <path
+                                            d="M13,14H3c-0.6,0-1-0.4-1-1V3c0-0.6,0.4-1,1-1h5v1H3v10h10V8h1v5C14,13.6,13.6,14,13,14z">
+                                        </path>
+                                        <path d="M10 1L10 2 13.3 2 9 6.3 9.7 7 14 2.7 14 6 15 6 15 1z"></path>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://cleberg.io" target="_blank">Christian Cleberg &copy; 2020</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="main" class="main col-xs-12 col-md-9 col-lg-10 ml-auto">
+                <span class="homepage--dots"></span>';
 
             // Get the user's blog name for welcome message
             $client->getUserInfo();
             foreach ($client->getUserInfo()->user->blogs as $blog) {
-                echo '<h1 class="text-center py-4">Search results for: ' . $_GET['query'] . '</h1>';
+                echo '<h1 class="text-center py-4">Search results for: <span class="search-query">' . $_GET['query'] . '</span></h1>';
             }
 
             // Create function to allow a client to get 20 posts per page
@@ -225,26 +319,19 @@
             $limit = 20;
             echo get_tagged_posts($client, $post_start, $limit, $post_type);
             
-    echo '</div>
-    <footer class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <p><a href="https://cleberg.io">Christian Cleberg</a> © 2016 - '; echo date("Y"); echo '</p>
-                    <p><a href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub Source Code</a></p>
-                </div>
-                <div class="col">
-                    <a class="float-right" href="#">Back to top</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    <script src="./assets/js/app.js"></script>
-</body>
+    echo '</div></div></div>
+            <button class="btn-to-top" type="button" aria-label="Back to Top">
+            <svg id="icon-to-top" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"
+                aria-hidden="true">
+                <path d="M16 14L6 24 7.4 25.4 16 16.8 24.6 25.4 26 24zM4 8H28V10H4z"></path>
+            </svg>
+            </button>
 
-</html>';
+            <!-- JavaScript -->
+            <script src="https://unpkg.com/feather-icons"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            <script src="./assets/js/app.js"></script>
+            </body></html>';
 ?>
