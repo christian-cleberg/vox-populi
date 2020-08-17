@@ -193,15 +193,15 @@
                             <ul class="categories">
                                 <li><p>Filter</p></li>
                                 <hr class="sidebar-divider">
-                                <li><a class="';  echo (isset($_GET['type']) == 'answer' ? 'active' : ""); echo '" href="./">All Posts</a></li>
-                                <li><a class="';  echo (isset($_GET['type']) == 'answer' ? 'active' : ""); echo '" href="./?type=answer">Answer</a></li>
-                                <li><a class="'; echo (isset($_GET['type']) == 'audio' ? 'active' : ""); echo '" href="./?type=audio">Audio</a></li>
-                                <li><a class="'; echo (isset($_GET['type']) == 'chat' ? 'active' : ""); echo '" href="./?type=chat">Chat</a></li>
-                                <li><a class="'; echo (isset($_GET['type']) == 'link' ? 'active' : ""); echo '" href="./?type=link">Link</a></li>
-                                <li><a class="'; echo (isset($_GET['type']) == 'photo' ? 'active' : ""); echo '" href="./?type=photo">Photo</a></li>
-                                <li><a class="'; echo (isset($_GET['type']) == 'quote' ? 'active' : ""); echo '" href="./?type=quote">Quote</a></li>
-                                <li><a class="'; echo (isset($_GET['type']) == 'text' ? 'active' : ""); echo '" href="./?type=text">Text</a></li>
-                                <li><a class="'; echo (isset($_GET['type']) == 'video' ? 'active' : ""); echo '" href="./?type=video">Video</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == '') ? 'active' : ""); echo '" href="./">All Posts</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'answer') ? 'active' : ""); echo '" href="./?type=answer">Answer</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'audio') ? 'active' : ""); echo '" href="./?type=audio">Audio</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'chat') ? 'active' : ""); echo '" href="./?type=chat">Chat</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'link') ? 'active' : ""); echo '" href="./?type=link">Link</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'photo') ? 'active' : ""); echo '" href="./?type=photo">Photo</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'quote') ? 'active' : ""); echo '" href="./?type=quote">Quote</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'text') ? 'active' : ""); echo '" href="./?type=text">Text</a></li>
+                                <li><a class="'; echo (isset($_GET['type'] && $_GET['type'] == 'video') ? 'active' : ""); echo '" href="./?type=video">Video</a></li>
                             </ul>
                         </div>
                         <div>
