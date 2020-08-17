@@ -40,7 +40,7 @@ echo '<!doctype html><html lang="en">
         <body>
             <span class="homepage--dots"></span>
             <div class="container-fluid d-flex flex-column align-items-center justify-content-center" style="min-height:100vh;">
-                <div class="card w-50 h-50">
+                <div class="card login-card">
                     <div class="card-body d-flex flex-column justify-content-center align-items-center">
                         <h1 class="card-title mb-0">Welcome to Vox Populi</h1>
                         <p class="card-text mb-4" style="font-size:1rem;">Use the button below to sign in with your Tumblr account.</p>

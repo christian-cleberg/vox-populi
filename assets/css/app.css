@@ -19,9 +19,16 @@ iframe {
   width: 100%;
 }
 
-.logout {
-  background: #dc3545;
-  color: white !important;
+.login-card {
+  height: auto;
+  width: 50%;
+}
+
+@media (max-width: 576px) {
+  .login-card {
+    height: auto;
+    width: 100%;
+  }
 }
 
 .card {
