@@ -193,7 +193,7 @@
                             <ul class="categories">
                                 <li><p>Filter</p></li>
                                 <hr class="sidebar-divider">
-                                <li><a class="'; echo ((isset($_GET['type']) && $_GET['type'] == '') ? 'active' : ""); echo '" href="../dashboard/">All Posts</a></li>
+                                <li><a class="'; echo ((isset($_GET['type']) && $_GET['type'] == '') ? 'active' : ""); echo '" href="./">All Posts</a></li>
                                 <li><a class="'; echo ((isset($_GET['type']) && $_GET['type'] == 'answer') ? 'active' : ""); echo '" href="./?type=answer">Answer</a></li>
                                 <li><a class="'; echo ((isset($_GET['type']) && $_GET['type'] == 'audio') ? 'active' : ""); echo '" href="./?type=audio">Audio</a></li>
                                 <li><a class="'; echo ((isset($_GET['type']) && $_GET['type'] == 'chat') ? 'active' : ""); echo '" href="./?type=chat">Chat</a></li>
@@ -250,7 +250,7 @@
                 }
                 // Add header to show information about the blog
                 $blog_details = $client->getBlogInfo($blogName);
-                print_r($blog_details);
+                echo($blog_details);
 
                 // Add posts to blog stream
                 $card_columns = '<div class="card-columns">';
