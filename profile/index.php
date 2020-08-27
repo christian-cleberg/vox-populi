@@ -267,7 +267,7 @@
 
                 // Add posts to blog stream
                 $card_columns = '<div class="card-columns py-3">';
-                print_r($blog_posts);
+                // print_r($blog_posts);
                 foreach ($blog_posts->posts as $post) {
                     $card_columns .= '<div class="card" data-type="' . $post->type . '" data-id="' . $post->id_string . '">';
                     $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog"><a href="' . $post->blog->url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->blog_name, 32) . '"></a>';
