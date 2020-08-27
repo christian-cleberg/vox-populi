@@ -1,14 +1,14 @@
 <?php
     require __DIR__ . '/../vendor/autoload.php';
-    
+
     session_start();
-    
+
     $consumer_key = getenv('CONSUMER_KEY');
     $consumer_secret = getenv('CONSUMER_SECRET');
     $client = new Tumblr\API\Client($consumer_key, $consumer_secret);
     $requestHandler = $client->getRequestHandler();
     $requestHandler->setBaseUrl('https://www.tumblr.com/');
-    
+
     // Check if the user has already authenticated
     if(isset($_SESSION['perm_token']) && !empty($_SESSION['perm_token']) && isset($_SESSION['perm_secret']) && !empty($_SESSION['perm_secret'])) {
         $token = $_SESSION['perm_token'];
@@ -21,38 +21,38 @@
     }
     // Check if this is the user's first visit
     else if (!isset($_GET['oauth_verifier'])) {
-    
+
         // Grab the oauth token
         $resp = $requestHandler->request('POST', 'oauth/request_token', array());
         $out = $result = $resp->body;
         $data = array();
         parse_str($out, $data);
-        
+
         // Save temporary tokens to session
         $_SESSION['tmp_token'] = $data['oauth_token'];
         $_SESSION['tmp_secret'] = $data['oauth_token_secret'];
-    
+
         // Redirect user to Tumblr auth page
         session_regenerate_id(true);
         $header_url = 'https://www.tumblr.com/oauth/authorize?oauth_token=' . $data['oauth_token'];
         header('Location: ' . $header_url);
         die();
-    
+
     }
     // Check if the user was just sent back from the Tumblr authentication site
     else {
-    
+
         $verifier = $_GET['oauth_verifier'];
-    
+
         // Use the stored temporary tokens
         $client->setToken($_SESSION['tmp_token'], $_SESSION['tmp_secret']);
-    
+
         // Access the permanent tokens
         $resp = $requestHandler->request('POST', 'oauth/access_token', array('oauth_verifier' => $verifier));
         $out = $result = $resp->body;
         $data = array();
         parse_str($out, $data);
-    
+
         // Set permanent tokens
         $token = $data['oauth_token'];
         $token_secret = $data['oauth_token_secret'];;
@@ -62,13 +62,13 @@
         // Set cookies in case the user comes back later
         setcookie("perm_token", $_SESSION['perm_token']);
         setcookie("perm_secret", $_SESSION['perm_secret']);
-        
+
         // Redirect user to homepage for a clean URL
         session_regenerate_id(true);
         $header_url = 'https://cleberg.io/vox-populi/';
         header('Location: ' . $header_url);
         die();
-    
+
     }
 
     // Authenticate via OAuth
@@ -78,12 +78,12 @@
         $token,
         $token_secret
     );
-    
+
     // Set up a function to check if variables are blank later (this function accepts 0, 0.0, and "0" as valid)
     function not_blank($value) {
         return !empty($value) && isset($value) && $value !== '';
     }
-    
+
     // Echo HTML contents
     echo '<!doctype html><html lang="en"><head>
         <meta charset="utf-8">
@@ -107,7 +107,7 @@
                     url("../assets/fonts/IBMPlexSans-Regular.woff") format("woff"),
                     url("../assets/fonts/IBMPlexSans-Regular.ttf") format("truetype");
             }
-    
+
             @font-face {
                 font-family: "IBM Plex Sans";
                 src: url("../assets/fonts/IBMPlexSans-Bold.eot");
@@ -116,7 +116,7 @@
                     url("../assets/fonts/IBMPlexSans-Bold.ttf") format("truetype");
                 font-weight: bold;
             }
-    
+
             @font-face {
                 font-family: "IBM Plex Mono";
                 src: url("../assets/fonts/IBMPlexMono-Regular.eot");
@@ -124,7 +124,7 @@
                     url("../assets/fonts/IBMPlexMono-Regular.woff") format("woff"),
                     url("../assets/fonts/IBMPlexMono-Regular.ttf") format("truetype");
             }
-    
+
             @font-face {
                 font-family: "IBM Plex Mono";
                 src: url("../assets/fonts/IBMPlexMono-Bold.eot");
@@ -135,7 +135,7 @@
             }
         </style>
     </head>
-    
+
     <body>
         <div class="banner fixed-top" role="contentinfo">
             <p class="m-0 mr-2">Black Lives Matter.</p>
@@ -153,7 +153,7 @@
                     </svg></a>
             </li>
             <a class="navbar-brand" href="./">Vox Populi</a>
-    
+
             <ul class="navbar-nav mr-0 ml-auto flex-row">
                 <li class="nav-item">
                     <a id="search-button" class="nav-link" href="javascript:void(0)"><svg id="icon-search"
@@ -178,7 +178,7 @@
                 </a>
             </form>
         </nav>
-    
+
         <div class="container-fluid">
             <div class="row">
                 <div id="sidebar" class="sidebar d-none d-md-block col-md-3 col-lg-2 p-0">
@@ -187,6 +187,7 @@
                             <ul class="actions">
                                 <li><p>Account</p></li>
                                 <hr class="sidebar-divider">
+                                <li><a href="../dashboard/">Dashboard</a></li>
                                 <li><a href="../profile/">Profile</a></li>
                                 <li><a href="../logout.php">Logout</a></li>
                             </ul>
@@ -260,14 +261,14 @@
                         }
                     }
                     $card_columns .= '</div>';
-                    
+
                     // Add 'follow user' button if not following blog
                     if ($post->followed) {
                         $card_columns .= '</div>';
                     } else {
                         $card_columns .= '<a href="javascript:void(0);" onclick="follow(\'' . $post->blog_name . '\', ' . $post->blog->uuid . ');" title="Follow" data-id="' . $post->blog->uuid . '"><i data-feather="user-plus"></i></a></div>';
                     }
-                    
+
                     // Add root blog (original poster)
                     if ($post->reblogged_root_following) {
                         $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog">';
@@ -283,7 +284,7 @@
                         }
                         $card_columns .= '</div>';
                     }
-                    
+
                     if ($post->type == 'photo') {
                         $card_columns .= '<a href="' . $post->photos[0]->original_size->url . '"><img src="' . $post->photos[0]->original_size->url . '" class="card-img" alt="..."></a>';
                     }
@@ -318,7 +319,7 @@
                             $card_columns .= '<blockquote class="card-text post-chat-' . $i . '">' . (not_blank($post->dialogue[$i]->name) ? ('<b>' . $post->dialogue[$i]->name . '</b>: ') : "") . $post->dialogue[$i]->phrase . '</blockquote>';
                         }
                     }
-                    /* This seems to just post a duplicate of a QA answer 
+                    /* This seems to just post a duplicate of a QA answer
                     if (isset($post->reblog->comment) && $post->reblog->comment !== '') {
                         $card_columns .= '<p class="card-text reblog-comment">' . $post->reblog->comment . '</p>';
                     }
@@ -329,7 +330,7 @@
                     $card_columns .= '<a href="#" title="Share"><i data-feather="send"></i></a>';
                     $card_columns .= '<a href="#" title="Comment"><i data-feather="message-square"></i></a>';
                     $card_columns .= '<a href="#" title="Reblog"><i data-feather="repeat"></i></a>';
-                    
+
                     if ($post->liked != true) {
                         // Like this post
                         $card_columns .= '<a href="javascript:void(0);" onclick="like(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Like" data-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
@@ -337,7 +338,7 @@
                         // Unlike this post
                         $card_columns .= '<a href="javascript:void(0);" onclick="unlike(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unlike" data-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
                     }
-                    
+
                     $card_columns .= '</div></div>';
                 }
                 $card_columns .= '</div>';
@@ -359,7 +360,7 @@
             $post_start = (($page - 1) * 20) + 1;
             $limit = 20;
             echo get_dashboard_posts($client, $post_start, $limit, $post_type);
-            
+
             // Echo HTML page navigation
             // Embedded PHP tags here are calculating page numbers for URL parameters
             echo '<nav aria-label="Page navigation">
@@ -382,7 +383,7 @@
             </ul>
         </nav>
     </div>
-    
+
     </div>
     </div>
     <button class="btn-to-top" type="button" aria-label="Back to Top">
