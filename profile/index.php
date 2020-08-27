@@ -238,23 +238,36 @@
                 die();
             }
             foreach ($client->getUserInfo()->user->blogs as $blog) {
-                echo '<h1 class="text-center py-4">Welcome, <a href="https://' . $blog->name . '.tumblr.com">' . $blog->name . '</a>!</h1>';
+                // Add header to show information about the blog
+                $blog_name = $blog->name;
+                $blog_description = $blog->description;
+                $blog_avatar = $blog->avatar[0]->url;
+                $blog_header_image = $blog->theme->header_image;
+                $blog_total_posts = $blog->total_posts;
+
+                echo '<div class="card blog-header">
+                        <img class="img-fluid w-100 blog-header-image" src="' . $blog_header_image . '">
+                        <div class="m-3">
+                            <div class="d-flex flex-row align-items-center">
+                                <img class="img-fluid mr-3 blog-avatar" height="64" width="64" src="' . $blog_avatar . '">
+                                <h1 class="m-0 blog-title">' . $blog_name . '</h1>
+                            </div>
+                            <p class="m-0 lead blog-description">' . $blog_description . '</p>
+                        </div>
+                      </div>';
             }
-            
-            // Add header to show information about the blog
-            $blog_details = $client->getBlogInfo($blogName);
-            echo($blog_details);
 
             // Create function to allow a client to get 20 posts per page
-            function get_blog_posts($client, $post_start, $limit, $post_type) {
+            function get_blog_posts($client, $blog_identifier, $post_start, $limit, $post_type) {
                 if ($post_type != NULL) {
-                    $blog_posts = $client->getBlogPosts(array('limit' => $limit, 'offset' => $post_start, 'reblog_info' => true, 'type' => $post_type));
+                    $blog_posts = $client->getBlogPosts($blog_identifier, array('limit' => $limit, 'offset' => $post_start, 'reblog_info' => true, 'type' => $post_type));
                 } else {
-                    $blog_posts = $client->getBlogPosts(array('limit' => $limit, 'offset' => $post_start, 'reblog_info' => true));
+                    $blog_posts = $client->getBlogPosts($blog_identifier, array('limit' => $limit, 'offset' => $post_start, 'reblog_info' => true));
                 }
 
                 // Add posts to blog stream
-                $card_columns = '<div class="card-columns">';
+                $card_columns = '<div class="card-columns py-3">';
+                print_r($blog_posts);
                 foreach ($blog_posts->posts as $post) {
                     $card_columns .= '<div class="card" data-type="' . $post->type . '" data-id="' . $post->id_string . '">';
                     $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog"><a href="' . $post->blog->url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->blog_name, 32) . '"></a>';
@@ -324,11 +337,6 @@
                             $card_columns .= '<blockquote class="card-text post-chat-' . $i . '">' . (not_blank($post->dialogue[$i]->name) ? ('<b>' . $post->dialogue[$i]->name . '</b>: ') : "") . $post->dialogue[$i]->phrase . '</blockquote>';
                         }
                     }
-                    /* This seems to just post a duplicate of a QA answer
-                    if (isset($post->reblog->comment) && $post->reblog->comment !== '') {
-                        $card_columns .= '<p class="card-text reblog-comment">' . $post->reblog->comment . '</p>';
-                    }
-                    */
                     // $card_columns .= '<a href="' . $post->post_url . '" class="card-link">Visit Post &rarr;</a>';
                     $card_columns .= '<div class="card-footer d-flex justify-content-between align-items-center p-0"><div class="note-count">' . number_format($post->note_count, 0) . ' notes</div>';
                     $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr"><i data-feather="external-link"></i></a>';
@@ -364,7 +372,8 @@
             }
             $post_start = (($page - 1) * 20) + 1;
             $limit = 20;
-            echo get_blog_posts($client, $post_start, $limit, $post_type);
+            $blog_identifier = $blog_name . '.tumblr.com';
+            echo get_blog_posts($client, $blog_identifier, $post_start, $limit, $post_type);
 
             // Echo HTML page navigation
             // Embedded PHP tags here are calculating page numbers for URL parameters
