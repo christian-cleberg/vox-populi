@@ -240,6 +240,10 @@
             foreach ($client->getUserInfo()->user->blogs as $blog) {
                 echo '<h1 class="text-center py-4">Welcome, <a href="https://' . $blog->name . '.tumblr.com">' . $blog->name . '</a>!</h1>';
             }
+            
+            // Add header to show information about the blog
+            $blog_details = $client->getBlogInfo($blogName);
+            echo($blog_details);
 
             // Create function to allow a client to get 20 posts per page
             function get_blog_posts($client, $post_start, $limit, $post_type) {
@@ -248,9 +252,6 @@
                 } else {
                     $blog_posts = $client->getBlogPosts(array('limit' => $limit, 'offset' => $post_start, 'reblog_info' => true));
                 }
-                // Add header to show information about the blog
-                $blog_details = $client->getBlogInfo($blogName);
-                echo($blog_details);
 
                 // Add posts to blog stream
                 $card_columns = '<div class="card-columns">';
@@ -349,7 +350,7 @@
                 return $card_columns;
             }
 
-            // Create a loop to call as many dashboard posts as you want (results are returned in sets of 20 per API rules)
+            // Create a loop to call as many blog posts as you want (results are returned in sets of 20 per API rules)
             // Can specify post type: text, chat, link, photo, audio, video, NULL
             if (isset($_GET['type'])) {
                 $post_type = $_GET['type'];
