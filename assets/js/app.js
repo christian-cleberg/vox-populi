@@ -51,6 +51,34 @@ function unfollow(blog_name, uuid) {
     });
 }
 
+function reblog(blog_name, id, reblog_key) {
+    $.ajax({
+        url: "https://cleberg.io/vox-populi/action.php?action=reblog&blog_name=" + blog_name + "&id=" + id + "&reblog_key" + reblog_key,
+        success: function (result) {
+            if (result == "success") {
+                alert("Successfully reblogged post.");
+                $("a[data-id='" + post_id + "'] svg").css("fill", "#dc3545");
+            } else {
+                alert("Error: Failed to reblog post.");
+            }
+        }
+    });
+}
+
+function unreblog(blog_name, id, reblog_key) {
+    $.ajax({
+        url: "https://cleberg.io/vox-populi/action.php?action=unreblog&blog_name=" + blog_name + "&id=" + id + "&reblog_key" + reblog_key,
+        success: function (result) {
+            if (result == "success") {
+                alert("Successfully reblogged post.");
+                $("a[data-id='" + post_id + "'] svg").css("fill", "none");
+            } else {
+                alert("Error: Failed to reblog post.");
+            }
+        }
+    });
+}
+
 function toggleNav() {
     // If we're on a small screen (sidebar is hidden on small screens)
     if ($(window).width() <= 768) {

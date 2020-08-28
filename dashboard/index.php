@@ -329,8 +329,17 @@
                     $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr"><i data-feather="external-link"></i></a>';
                     $card_columns .= '<a href="#" title="Share"><i data-feather="send"></i></a>';
                     $card_columns .= '<a href="#" title="Comment"><i data-feather="message-square"></i></a>';
-                    $card_columns .= '<a href="#" title="Reblog"><i data-feather="repeat"></i></a>';
 
+                    // Set up actions to reblog/unreblog post
+                    if ($post->liked != true) {
+                        // Reblog this post
+                        $card_columns .= '<a href="javascript:void(0);" onclick="reblog(\'' . urlencode($post->blog_name) . '\', \'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Reblog" data-id="' . $post->id . '"><i data-feather="repeat"></i></a></div></div>';
+                    } else {
+                        // Unreblog this post
+                        $card_columns .= '<a href="javascript:void(0);" onclick="unblog(\'' . urlencode($post->blog_name) . '\', \'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unblog" data-id="' . $post->id . '"><i data-feather="repeat"></i></a></div></div>';
+                    }
+
+                    // Set up actions to like/unlike post
                     if ($post->liked != true) {
                         // Like this post
                         $card_columns .= '<a href="javascript:void(0);" onclick="like(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Like" data-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
