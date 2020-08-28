@@ -252,6 +252,7 @@
                                 <img class="img-fluid mr-3 blog-avatar" height="64" width="64" src="' . $blog_avatar . '">
                                 <h1 class="m-0 blog-title">' . $blog_name . '</h1>
                             </div>
+                            <hr>
                             <p class="m-0 lead blog-description">' . $blog_description . '</p>
                         </div>
                       </div>';
