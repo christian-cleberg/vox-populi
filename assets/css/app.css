@@ -108,6 +108,12 @@ blockquote p {
   padding: 0 0.5rem;
 }
 
+@media (max-width: 576px) {
+  .blog-title {
+    font-size: 1.5rem;
+  }
+}
+
 .blog-header-image {
     height: 25vh;
     object-fit: cover
