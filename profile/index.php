@@ -246,7 +246,7 @@
                 $blog_total_posts = $blog->total_posts;
 
                 echo '<div class="card blog-header">
-                        <img class="img-fluid w-100 blog-header-image" src="' . $blog_header_image . '">
+                        <img class="img-fluid blog-header-image" src="' . $blog_header_image . '">
                         <div class="m-3">
                             <div class="d-flex flex-row align-items-center">
                                 <img class="img-fluid mr-3 blog-avatar" height="64" width="64" src="' . $blog_avatar . '">
