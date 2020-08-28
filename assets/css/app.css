@@ -108,6 +108,10 @@ blockquote p {
   padding: 0 0.5rem;
 }
 
+.blog-title {
+    font-weight: bold
+}
+
 @media (max-width: 576px) {
   .blog-title {
     font-size: 1.5rem;
