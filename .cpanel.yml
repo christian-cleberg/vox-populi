@@ -8,6 +8,7 @@ deployment:
   - /bin/cp search.php $DEPLOYPATH
   - /bin/cp composer.json $DEPLOYPATH
   - /bin/cp composer.lock $DEPLOYPATH
+  - /bin/cp robots.txt $DEPLOYPATH
   - /bin/cp -R assets $DEPLOYPATH
   - /bin/cp -R dashboard $DEPLOYPATH
   - /bin/cp -R profile $DEPLOYPATH
