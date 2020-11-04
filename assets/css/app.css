@@ -399,7 +399,7 @@ blockquote {
 
 /* Banner */
 .banner {
-  color: #fff;
+  color: black;
   position: fixed;
   top: 0;
   width: 100%;
@@ -413,6 +413,7 @@ blockquote {
 }
 
 .banner p {
+  color: black;
   font-weight: bold;
   font-size: .875rem;
   line-height: 1.125rem;
@@ -420,7 +421,7 @@ blockquote {
 }
 
 .banner a {
-  color: #fff;
+  color: black;
   text-decoration: underline;
   font-size: .875rem;
   line-height: 1.125rem;

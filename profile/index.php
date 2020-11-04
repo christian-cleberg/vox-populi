@@ -138,9 +138,7 @@
     <body>
         <div class="banner fixed-top" role="contentinfo">
             <p class="m-0 mr-2">Black Lives Matter.</p>
-            <a href="https://support.eji.org/give/153413/#!/donation/checkout">Support the <span
-                    class="d-none d-md-inline">Equal Justice Initiative</span><span
-                    class="d-inline d-md-none">EJI</span></a>
+            <a href="https://developer.ibm.com/callforcode/racial-justice/" target="_blank" rel="noopener">Support the Call for Code®</a>
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <li class="nav-item d-block d-md-none">
