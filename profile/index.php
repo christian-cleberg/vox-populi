@@ -206,7 +206,7 @@
                             <hr class="sidebar-divider">
                             <ul class="meta">
                                 <li>
-                                    <a href="https://gitlab.com/christian-cleberg/vox-populi" target="_blank">GitLab <svg
+                                    <a href="https://git.sr.ht/~ccleberg/vox-populi" target="_blank">Source Code <svg
                                             id="icon-external-link" xmlns="http://www.w3.org/2000/svg" width="16"
                                             height="16" viewBox="0 0 16 16" aria-hidden="true">
                                             <path
