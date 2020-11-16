@@ -1,7 +1,10 @@
 # Vox Populi - A Tumblr Web Client
 A quick and easy web client for Tumblr written in PHP.
 
-Steps to get started:
+## Environment
+[View the website here.](https://cleberg.io/vox-populi/)
+
+### Steps to get started:
 1. To create a Tumblr application and get your consumer key/secret pair, [create an app on the Tumblr site](https://www.tumblr.com/oauth/apps).
 2. Set your environment variables in an `.htaccess` file. For example,
 ```
