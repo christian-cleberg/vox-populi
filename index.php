@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
-    
+
 session_start();
 
 $consumer_key = getenv('CONSUMER_KEY');
@@ -32,8 +32,7 @@ echo '<!doctype html><html lang="en">
             <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
             <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
             <link rel="manifest" href="./assets/favicon/site.webmanifest">
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-                integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+            <link rel="stylesheet" href="./assets/css/bootstrap-4.5.2.min.css">
             <link rel="stylesheet"  href="./assets/css/app.css">
             <title>Vox Populi - A Tumblr Web Client</title>
         </head>
