@@ -144,16 +144,6 @@ function toggleSearch() {
     }
 }
 
-function banner(random_num) {
-    const slogan = ['Black Lives Matter.', 'Defend the Web.', 'Protect Our Planet.', 'Help Inspire Programmers.'];
-    const text_full = ['the Equal Justice Initiative', 'Mozilla', 'the World Resources Institute', 'Black Girls Code'];
-    const text_abbr = ['the EJI', 'Mozilla', 'the WRI', 'BGC'];
-    const link = ['https://support.eji.org/give/153413/#!/donation/checkout', 'https://donate.mozilla.org', 'https://www.wri.org/donate-now', 'https://donorbox.org/support-black-girls-code'];
-
-    let output = '<p class="m-0 mr-2">' + slogan[random_num] + '</p><a href="' + link[random_num] + '">Support <span class="d-none d-md-inline">' + text_full[random_num] + '</span><span class="d-inline d-md-none">' + text_abbr[random_num] + '</span></a>';
-    $('.banner').html(output);
-}
-
 $(document).ready(function () {
     feather.replace({"height": 16,"width": 16});
 
@@ -161,7 +151,4 @@ $(document).ready(function () {
 
     toggleNav();
     toggleSearch();
-
-    let random_num = Math.floor(Math.random() * (Math.floor(3) - Math.ceil(0))) + Math.ceil(0);
-    banner(random_num);
 });
