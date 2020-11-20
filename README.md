@@ -4,7 +4,7 @@ A quick and easy web client for Tumblr written in PHP.
 ## Environment
 [View the website here.](https://cleberg.io/vox-populi/)
 
-### Steps to get started:
+## Installation
 1. To create a Tumblr application and get your consumer key/secret pair, [create an app on the Tumblr site](https://www.tumblr.com/oauth/apps).
 2. Set your environment variables in an `.htaccess` file. For example,
 ```
@@ -12,7 +12,8 @@ A quick and easy web client for Tumblr written in PHP.
 SetEnv CONSUMER_KEY "<your-consumer-key>"
 SetEnv CONSUMER_SECRET "<your-consumer-secret>"
 ```
-3. Done! You (and your users) can now login. The site will automatically redirect you to the Tumblr login page if you are not already authenticated.
+3. Git clone this repository into the web directory where you want Voc Populi to be served.
+4. Done! You (and your users) can now login. The site will automatically redirect you to the Tumblr login page if you are not already authenticated.
 
 ### Login Page
 ![](https://cleberg.io/img/share/vox_populi/vox_populi_login.png)
