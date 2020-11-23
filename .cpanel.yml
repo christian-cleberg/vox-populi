@@ -1,7 +1,7 @@
 ---
 deployment:
  tasks:
-  - export DEPLOYPATH=/home/christian/public_html/vox-populi/
+  - export DEPLOYPATH=/home/clebergi/public_html/vox-populi/
   - /bin/cp action.php $DEPLOYPATH
   - /bin/cp index.php $DEPLOYPATH
   - /bin/cp logout.php $DEPLOYPATH
