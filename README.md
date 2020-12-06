@@ -16,10 +16,10 @@ SetEnv CONSUMER_SECRET "<your-consumer-secret>"
 4. Done! You (and your users) can now login. The site will automatically redirect you to the Tumblr login page if you are not already authenticated.
 
 ### Login Page
-![](https://cleberg.io/img/share/vox_populi/vox_populi_login.png)
+![](https://img.cleberg.io/vox-populi/vox_populi_login.png)
 
 ### Authentication via Tumblr
-![](https://cleberg.io/img/share/vox_populi/vox_populi_auth.png)
+![](https://img.cleberg.io/vox-populi/vox_populi_auth.png)
 
 ### Dashboard
-![](https://cleberg.io/img/share/vox_populi/vox_populi_dashboard.png)
+![](https://img.cleberg.io/vox-populi/vox_populi_dashboard.png)
