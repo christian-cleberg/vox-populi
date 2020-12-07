@@ -3,7 +3,7 @@ function like(post_id, reblog_key) {
         url: "https://cleberg.io/vox-populi/action.php?action=like&post_id=" + post_id + "&reblog_key=" + reblog_key,
         success: function (result) {
             if (result == "success") {
-                $("a[data-id='" + post_id + "'] svg").css("fill", "#dc3545");
+                $("a[data-like-id='" + post_id + "'] svg").css("fill", "#dc3545");
             } else {
                 alert("Error: Failed to like post.");
             }
@@ -16,7 +16,7 @@ function unlike(post_id, reblog_key) {
         url: "https://cleberg.io/vox-populi/action.php?action=unlike&post_id=" + post_id + "&reblog_key=" + reblog_key,
         success: function (result) {
             if (result == "success") {
-                $("a[data-id='" + post_id + "'] svg").css("fill", "none");
+                $("a[data-unlike-id='" + post_id + "'] svg").css("fill", "none");
             } else {
                 alert("Error: Failed to unlike post.");
             }
@@ -57,7 +57,7 @@ function reblog(blog_name, id, reblog_key) {
         success: function (result) {
             if (result == "success") {
                 alert("Successfully reblogged post.");
-                $("a[data-id='" + post_id + "'] svg").css("fill", "#dc3545");
+                $("a[data-reblog-id='" + post_id + "'] svg").css("fill", "#dc3545");
             } else {
                 alert("Error: Failed to reblog post.");
             }
@@ -71,7 +71,7 @@ function unreblog(blog_name, id, reblog_key) {
         success: function (result) {
             if (result == "success") {
                 alert("Successfully reblogged post.");
-                $("a[data-id='" + post_id + "'] svg").css("fill", "none");
+                $("a[data-unreblog-id='" + post_id + "'] svg").css("fill", "none");
             } else {
                 alert("Error: Failed to reblog post.");
             }

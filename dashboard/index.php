@@ -330,19 +330,19 @@
                     // Set up actions to reblog/unreblog post
                     if ($post->liked != true) {
                         // Reblog this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="reblog(\'' . urlencode($post->blog_name) . '\', \'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Reblog" data-id="' . $post->id . '"><i data-feather="repeat"></i></a>';
+                        $card_columns .= '<a href="javascript:void(0);" onclick="reblog(\'' . urlencode($post->blog_name) . '\', \'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Reblog" data-reblog-id="' . $post->id . '"><i data-feather="repeat"></i></a>';
                     } else {
                         // Unreblog this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="unblog(\'' . urlencode($post->blog_name) . '\', \'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unblog" data-id="' . $post->id . '"><i data-feather="repeat"></i></a>';
+                        $card_columns .= '<a href="javascript:void(0);" onclick="unblog(\'' . urlencode($post->blog_name) . '\', \'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unblog" data-unreblog-id="' . $post->id . '"><i data-feather="repeat"></i></a>';
                     }
 
                     // Set up actions to like/unlike post
                     if ($post->liked != true) {
                         // Like this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="like(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Like" data-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
+                        $card_columns .= '<a href="javascript:void(0);" onclick="like(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Like" data-like-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
                     } else {
                         // Unlike this post
-                        $card_columns .= '<a href="javascript:void(0);" onclick="unlike(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unlike" data-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
+                        $card_columns .= '<a href="javascript:void(0);" onclick="unlike(\'' . urlencode($post->id) . '\', \'' . urlencode($post->reblog_key) . '\');" title="Unlike" data-unlike-id="' . $post->id . '"><i data-feather="heart"></i></a></div></div>';
                     }
 
                     $card_columns .= '</div></div>';
