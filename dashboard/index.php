@@ -324,8 +324,8 @@
                     // $card_columns .= '<a href="' . $post->post_url . '" class="card-link">Visit Post &rarr;</a>';
                     $card_columns .= '<div class="card-footer d-flex justify-content-between align-items-center p-0"><div class="note-count">' . number_format($post->note_count, 0) . ' notes</div>';
                     $card_columns .= '<div class="post-icons"><a href="' . $post->post_url . '" target="_blank" title="View on Tumblr"><i data-feather="external-link"></i></a>';
-                    $card_columns .= '<a href="#" title="Share"><i data-feather="send"></i></a>';
-                    $card_columns .= '<a href="#" title="Comment"><i data-feather="message-square"></i></a>';
+                    $card_columns .= '<a disabled href="#" title="Share"><i data-feather="send"></i></a>';
+                    $card_columns .= '<a disabled href="#" title="Comment"><i data-feather="message-square"></i></a>';
 
                     // Set up actions to reblog/unreblog post
                     if ($post->liked != true) {
