@@ -1,14 +1,14 @@
 <?php
     require __DIR__ . '/vendor/autoload.php';
-    
+
     session_start();
-    
+
     $consumer_key = getenv('CONSUMER_KEY');
     $consumer_secret = getenv('CONSUMER_SECRET');
     $client = new Tumblr\API\Client($consumer_key, $consumer_secret);
     $requestHandler = $client->getRequestHandler();
     $requestHandler->setBaseUrl('https://www.tumblr.com/');
-    
+
     // Check if the user has already authenticated
     if(isset($_SESSION['perm_token']) && !empty($_SESSION['perm_token']) && isset($_SESSION['perm_secret']) && !empty($_SESSION['perm_secret'])) {
         $token = $_SESSION['perm_token'];
@@ -21,38 +21,38 @@
     }
     // Check if this is the user's first visit
     else if (!isset($_GET['oauth_verifier'])) {
-    
+
         // Grab the oauth token
         $resp = $requestHandler->request('POST', 'oauth/request_token', array());
         $out = $result = $resp->body;
         $data = array();
         parse_str($out, $data);
-        
+
         // Save temporary tokens to session
         $_SESSION['tmp_token'] = $data['oauth_token'];
         $_SESSION['tmp_secret'] = $data['oauth_token_secret'];
-    
+
         // Redirect user to Tumblr auth page
         session_regenerate_id(true);
         $header_url = 'https://www.tumblr.com/oauth/authorize?oauth_token=' . $data['oauth_token'];
         header('Location: ' . $header_url);
         die();
-    
+
     }
     // Check if the user was just sent back from the Tumblr authentication site
     else {
-    
+
         $verifier = $_GET['oauth_verifier'];
-    
+
         // Use the stored temporary tokens
         $client->setToken($_SESSION['tmp_token'], $_SESSION['tmp_secret']);
-    
+
         // Access the permanent tokens
         $resp = $requestHandler->request('POST', 'oauth/access_token', array('oauth_verifier' => $verifier));
         $out = $result = $resp->body;
         $data = array();
         parse_str($out, $data);
-    
+
         // Set permanent tokens
         $token = $data['oauth_token'];
         $token_secret = $data['oauth_token_secret'];;
@@ -62,13 +62,13 @@
         // Set cookies in case the user comes back later
         setcookie("perm_token", $_SESSION['perm_token']);
         setcookie("perm_secret", $_SESSION['perm_secret']);
-        
+
         // Redirect user to homepage for a clean URL
         session_regenerate_id(true);
         $header_url = 'https://cleberg.io/vox-populi/';
         header('Location: ' . $header_url);
         die();
-    
+
     }
 
     // Authenticate via OAuth
@@ -78,12 +78,12 @@
         $token,
         $token_secret
     );
-    
+
     // Set up a function to check if variables are blank later (this function accepts 0, 0.0, and "0" as valid)
     function not_blank($value) {
         return !empty($value) && isset($value) && $value !== '';
     }
-    
+
     // Echo HTML contents
     echo '<!doctype html><html lang="en"><head>
     <meta charset="utf-8">
@@ -207,7 +207,7 @@
                         <hr class="sidebar-divider">
                         <ul class="meta">
                             <li>
-                            <a href="https://github.com/christian-cleberg/vox-populi" target="_blank">GitHub <svg
+                            <a href="https://git.sr.ht/~cyborg/vox-populi" target="_blank">GitHub <svg
                                         id="icon-external-link" xmlns="http://www.w3.org/2000/svg" width="16"
                                         height="16" viewBox="0 0 16 16" aria-hidden="true">
                                         <path
@@ -242,7 +242,7 @@
                     $card_columns .= '<div class="card" data-type="' . $post->type . '" data-id="' . $post->id_string . '">';
                     $card_columns .= '<div class="card-header d-flex justify-content-between"><div class="card-header-blog"><a href="' . $post->blog->url . '" target="_blank"><img class="avatar" src="' . $client->getBlogAvatar($post->blog_name, 32) . '"></a>';
                     $card_columns .= '<a href="' . $post->blog->url . '">' . $post->blog_name . '</a></div>';
-                    
+
                     if ($post->followed != true) {
                         // Send user to action.php to follow a new blog
                         $query_string = 'action=follow&blog_name=' . urlencode($post->blog_name) . '&callback=' . urlencode('https://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
@@ -250,7 +250,7 @@
                     } else {
                         $card_columns .= '</div>';
                     }
-                    
+
                     if ($post->type == 'photo') {
                         $card_columns .= '<a href="' . $post->photos[0]->original_size->url . '"><img src="' . $post->photos[0]->original_size->url . '" class="card-img" alt="..."></a>';
                     }
@@ -285,7 +285,7 @@
                             $card_columns .= '<blockquote class="card-text post-chat-' . $i . '">' . (not_blank($post->dialogue[$i]->name) ? ('<b>' . $post->dialogue[$i]->name . '</b>: ') : "") . $post->dialogue[$i]->phrase . '</blockquote>';
                         }
                     }
-                    /* This seems to just post a duplicate of a QA answer 
+                    /* This seems to just post a duplicate of a QA answer
                     if (isset($post->reblog->comment) && $post->reblog->comment !== '') {
                         $card_columns .= '<p class="card-text reblog-comment">' . $post->reblog->comment . '</p>';
                     }
@@ -318,7 +318,7 @@
             $post_start = (($page - 1) * 20) + 1;
             $limit = 20;
             echo get_tagged_posts($client, $post_start, $limit, $post_type);
-            
+
     echo '</div></div></div>
             <button class="btn-to-top" type="button" aria-label="Back to Top">
             <svg id="icon-to-top" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"
